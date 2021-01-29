@@ -33,7 +33,10 @@ def get_used_media():
                 .values_list(field.name, flat=True) \
                 .exclude(**is_empty).exclude(**is_null):
             if value not in EMPTY_VALUES:
-                media.add(storage.path(value))
+                try:
+                    media.add(storage.path(value))
+                except NotImplementedError:
+                    continue
 
     return media
 
